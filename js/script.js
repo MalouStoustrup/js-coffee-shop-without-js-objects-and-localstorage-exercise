@@ -8,6 +8,9 @@ function addToCart(product){ // product er den variable som vi putter i. Man kal
     // Vi øger quantity med 1 / lægger 1 til den eksisterende værdi
     document.getElementById(product).value = quantity + 1;
 
+    //opdatere den totale pris for alle varer
+    totalPrice();
+
 }
 
 function removeFromCart(product) {
@@ -18,6 +21,9 @@ function removeFromCart(product) {
     // Vi trækker noget fra vores kurv. Kan kun gøres hvis der er noget i kurven (over nul)
     if(quantity > 0) {
     document.getElementById(product).value = quantity - 1;
+
+    //Nogle af funktionerne kalder på andre funktionwe
+    updateTotalPrice(product);
     }
 
 }
@@ -26,6 +32,8 @@ function resetCart(product) {
 
     // sætter quantity til 0
     document.getElementById(product).value = 0;
+
+    updateTotalPrice(product);
 
 }
 
@@ -42,7 +50,27 @@ function updateTotalPrice(product) {
 
     document.getElementById(product +"-total").value = total;
 
+    //opdatere den totale pris for alle varer
+    totalPrice();
+
 }
 
+// funktion til at beregne og opdatere den samlede totalpris for alle varer i kurven
+function totalPrice(){
+
+    // Varibale til at holde styr på den samlede totalpris
+    let totalSum = 0;
+
+    // her søger jeg efter alle inputfelter i HTML der indeholder et id hvor "-total" indgår
+    const productElements = document.querySelectorAll("[id$-total]");
+
+    // looper gennem hvert produkt-element element er det første product. Element = det første element (ligsom i)
+    productElements.forEach(productElem => {
+        totalSum += parseInt(productElem.value);
+    });
+    
+    document.getElementById(`totaSum`).value = totalSum;
+
+}
 
 
